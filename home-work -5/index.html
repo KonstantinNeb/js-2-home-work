@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+  
+  <style>
+    .post-item {
+      width: 500px;
+      border: 1px solid black;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+    
+    .post-item h3 {
+      margin: 0 0 5px;
+      color: brown;
+    }
+
+    .post-item h3.post-submit-collapse {
+      display: none;
+    }
+    
+    .comment-item {
+      font-size: 12px;
+      color: gray;
+      margin: 0 0 5px;
+    }
+    
+    .comment-input {
+      margin: 10px 5px 20px;
+      width: 50%;
+    }
+
+    .post-submit-collapse {
+      width: 110px;
+      height: 20px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .post-submit-expand {
+      width: 110px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .posts-submit-collapse {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <button class="posts-submit-collapse" id="all-collapse">Свернуть все</button>
+  <button class="posts-submit-expand" id="all-expand">Развернуть все</button>
+  <div class="posts">
+  </div>
+  <script src="script-2.js"></script>
+</body>
+</html>
