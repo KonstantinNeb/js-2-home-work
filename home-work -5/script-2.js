@@ -58,12 +58,43 @@ Blog.prototype.addComment = function (text, postId) {
     });
 }
 
+Blog.prototype.filterPostsByPostId = function(id) {
+	var matchPosts = [];
+	
+	this.posts.forEach(function (item) {
+		if (item.postId == id) {
+			matchPosts.push(item)
+		}
+	});
+	
+	return matchPosts;
+}
+
+Blog.prototype.addPost = function (text, postId) {
+	$.ajax({
+		url: 'https://jsonplaceholder.typicode.com/posts',
+		type: 'POST',
+		context: this,
+		data: {
+			body: text,
+			name: '123',
+			email: 'qwwe@ru',
+			postId: postId
+		}
+	})
+		.done(function (newPosts) {
+			this.posts.push(newPosts);
+			this.renderPosts();
+		});
+}
+
 Blog.prototype.renderPosts = function () {
   var self = this;
   $('.posts').html('');
   this.posts.forEach(function (item) {
     var filteredCommentsByPostId = self.filterCommentsByPostId(item.id);
-    var post = new Post(item.id, item.userId, item.title, item.body, filteredCommentsByPostId);
+    var filteredPostsByPostId = self.filterPostsByPostId(item.id);
+	  var post = new Post(item.id, item.userId, item.title, item.body, filteredCommentsByPostId, filteredPostsByPostId);
     var element = post.render();
     $('.posts').append(element);
   });
@@ -75,18 +106,30 @@ Blog.prototype.renderPosts = function () {
       var data = $(this).data();
       var postId = data.id;
       var value = e.target.value;
-      self.addComment(value,postId);
+      self.addComment(value, postId);
     }
   });
+  
+  $('.post-input').on('keyup', function (e) {
+	  var keyCode = e.keyCode;
+	
+	  if (keyCode == 13) {
+		  var data = $(this).data();
+		  var postId = data.id;
+		  var value = e.target.value;
+		  self.addPost(value, postId);
+	  }
+  })
 
   $('button').click(function (e) {
-    $('p').toggle('slow');
-    var keyCode = e.click;
+    $('p').toggle('fast');
+    var click = e.click;
     
-	  if (keyCode == click) {
-	  	var postId = this.id;
-	  	var value = e.target.value;
-	  }
+    if (click) {
+	    var data = $(this).data();
+	    var postId = data.id;
+    	var value = e.target.value;
+    }
   })
 }
 
@@ -100,11 +143,25 @@ function Post(id, userId, title, body, comments) {
 }
 
 Post.prototype.render = function () {
+	var postsHtml = '';
+	
+	this.posts.forEach(function (item) {
+		postsHtml += '<p class="post-item">' + item.body + '</p>';
+	})
+	
+	return '<div class="addPost">\
+			<div class="posts-box">'+ postsHtml +'</div>\
+			<input class="post-input" type="text" data-id="' + this.id +'"/>\
+		</div>';
+}
+
+Post.prototype.render = function () {
   var commentsHtml = '';
+  
   this.comments.forEach(function (item) {
     commentsHtml += '<p class="comment-item">' + item.body + '</p>';
   })
-
+	
   return '<div class="post-item">\
     <h3>' + this.title + '</h3>\
     <p>' + this.body + '</p>\
