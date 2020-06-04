@@ -122,14 +122,7 @@ Blog.prototype.renderPosts = function () {
   })
 
   $('button').click(function (e) {
-    $('p').toggle('fast');
-    var click = e.click;
-    
-    if (click) {
-	    var data = $(this).data();
-	    var postId = data.id;
-    	var value = e.target.value;
-    }
+    $(this).parent().find('p').toggle('slow');
   })
 }
 
@@ -167,8 +160,8 @@ Post.prototype.render = function () {
     <p>' + this.body + '</p>\
     <div class="comments-box">'+ commentsHtml +'</div>\
     <input class="comment-input" type="text" data-id="' + this.id +'"/>\
-    <button class="post-submit-collapse" type="submit" id="this.id">Свернуть<div/>\
-    <button class="post-submit-expand" type="submit" id="this.id">Развернуть<div/>\
+    <button class="post-submit-collapse" type="submit">Свернуть<div/>\
+    <button class="post-submit-expand" type="submit">Развернуть<div/>\
   </div>';
 }
 

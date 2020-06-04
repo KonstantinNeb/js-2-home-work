@@ -96,15 +96,12 @@ Hamburger.prototype.getStuffing = function () {
 }
 
 Hamburger.prototype.calculatePrice = function () {
-  this.ham1Price = 0;
-  var ham1 = [{name: 'SMALL', price: 50}, {name: 'CHEESE', price: 10}];
-  function calculatePrice() {
-    for (var i = 0; i < ham1.length; i++) {
-      ham1Price = ham1Price + ham1[i].price;
-    }
-    return ham1Price;
-  }
+  return this.size.price + this.stuffing.price + this.toppings.reduce((acc, current) => acc + current.price, 0);
 }
+
+var ham1 = new Hamburger(SIZES.SMALL, STUFFINGS.CHEESE);
+ham1.addToppings(TOPPINGS.MAYO);
+console.log('price: ', ham1.calculatePrice());
 
 var ham1 = new Hamburger(SIZES.SMALL, STUFFINGS.CHEESE);
 ham1.addToppings(TOPPINGS.MAYO);
